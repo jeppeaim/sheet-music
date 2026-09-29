@@ -1,6 +1,6 @@
 \version "2.22.0"
 #(set-default-paper-size "letter")
-#(set-global-staff-size 22)
+#(set-global-staff-size 35)
 
 \header {
   title = "Come, Sweet Death (BWV 478)"
@@ -9,17 +9,18 @@
 }
 
 \paper {
-  top-margin = 18\mm
-  bottom-margin = 15\mm
-  left-margin = 20\mm
-  right-margin = 15\mm
+  top-margin = 14\mm
+  bottom-margin = 14\mm
+  left-margin = 18\mm
+  right-margin = 14\mm
   ragged-right = ##f
   ragged-last = ##f
-  ragged-bottom = ##f
-  system-system-spacing.basic-distance = #24
+  ragged-bottom = ##t
+  % Spacing from header/title to first staff
+  markup-system-spacing.basic-distance = #12
+  top-system-spacing.basic-distance = #12
 }
 
-% 11 pages total (4 measures per page = 44 measures, covering the 42-measure piece)
 breaks = {
   \repeat unfold 10 {
     s2. s2. s2. s2. \pageBreak
@@ -35,7 +36,14 @@ emptyStaff = {
 }
 
 \score {
-  \new StaffGroup <<
+  \new StaffGroup \with {
+    % This expands the vertical gap between each cello staff
+    \override StaffGrouper.staff-staff-spacing =
+      #'((basic-distance . 6.5)
+         (minimum-distance . 13)
+         (padding . 7)
+         (stretchability . 10))
+  } <<
     \new Staff \with { instrumentName = "Vc. 1" shortInstrumentName = "Vc. 1" } << \breaks \emptyStaff >>
     \new Staff \with { instrumentName = "Vc. 2" shortInstrumentName = "Vc. 2" } { \emptyStaff }
     \new Staff \with { instrumentName = "Vc. 3" shortInstrumentName = "Vc. 3" } { \emptyStaff }
